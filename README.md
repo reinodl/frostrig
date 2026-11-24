@@ -8,11 +8,11 @@ the Microsoft ship... Countless formats later because of my inherent ability to 
 to the universal rule of break before make, I had a CachyOS setup running headless over
 Sunshine and Moonlight with the use of an HDMI Dummy plug to force my screen availability,
 but I found myself looking for an easy and straightforward way to manage the system performance
-and cooling, because I cut up my wife's rather expensive television console unit with fan holes
-in the rear panel, installed some bright RGB fans to create a circulating airflow, and wanted to
-ensure I can maximize cooling while keeping the cabinet door closed. I desperately wanted something
-similar to what MSI Dragon Center and other software offer on Windows. I used some AI insights
-and had many a piece of python scriptures all around the machine, making small steps towards
+and cooling since I decided to cut up my wife's rather expensive television cabinet unit with vent holes
+in the rear panel, installed some RGB fans to create a circulating airflow from the lower shelves upwards,
+and wanted to ensure I can keep the laptop cool while keeping the cabinet doors closed. I desperately wanted something
+similar to what MSI Dragon Center and other similar software offers on Windows. I used some AI insights
+and had many a piece of python scriptures on my machine, making small steps towards
 controlling the system. Shortly after this, I found a piece of software called MControlCenter
 which scratched the itch for a little bit, albeit, I felt I wanted more. (No disrespect to the
 creator and a big thank you - check out this tool https://github.com/MControlSuite/MControlCenter).
@@ -23,8 +23,9 @@ systems (maybe even people) got left behind. I am only now starting to dig throu
 learning what each little bit does, how it interacts with the system. I am releasing this project
 purely as a passion project for some folks that may feel left behind in the leap to a better universe,
 or hesitant to make the jump because of their fears of needing software for their systems. Or maybe
-just for that one guy that needs to gain a few more FPS, either way, my intention is not to draw
-criticism, or cause harm in any way. I am releasing this in the hope that it gets some attention and
+just for that one guy that needs to gain a few more FPS, or prevent his hands from catching on fire on
+his nearly melting keyboard, either way, my intention is not to draw criticism, or cause harm in any way.
+I am releasing this in the hope that it gets some attention and
 draw expertise from the great developers out there, so that it may evolve, offer insight into my approach
 and ideas, and hopefully get crafted into something with a human touch.
 

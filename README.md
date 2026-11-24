@@ -4,9 +4,29 @@
 
 An unofficial control center for MSI laptops on Linux, built for CachyOS and Arch.
 
-FrostRig is made for MSI laptops first. Because it detects what each machine supports and only
-shows that, other laptops and desktops also get whatever standard Linux controls they have.
-Pick a performance mode, turn on Max Fans, set a battery charge limit, and change fan curves,
+FrostRig started specifically with MSI laptops in mind. I have been one of those individuals that have
+been toying with the idea of abandoning the Microsoft ship... Countless formats later because
+of my inherent ability to adhere to the universal rule of break before make, I had a CachyOS
+setup running headless over Sunshine and Moonlight, but I found myself looking for an easy
+and straightforward way to manage the system, similar to what MSI Dragon Center and other
+software offer on Windows. I used some AI insights and had many a piece of python scrolls
+all around the machine, making small steps towards controlling the system. Shortly after this,
+I found a piece of software called MControlCenter which scratched the itch for a little bit.
+With the rise of some very impressive Vibe-Coded software popping up everywhere, I decided to
+have a go at it. I am in no means nearly as experienced, nor do I have the expertise of some
+of the great coders out there, but really wanted to bring something to the Linux Universe in
+an area where I felt some systems or configurations (maybe even people) were left behind. I am
+only now starting to dig through the code, learning what each little bit does, how it interacts with
+the system. I am releasing this project purely as a passion project for some folks that may have felt
+left behind in the leap to a better universe, where we are free to create, manage and explore without
+Big Brother looking over the your shoulder. My intention is not to draw criticism, or cause harm in any way.
+I am releasing this in the hope that it gains the necessary attention and expertise from the great
+coders out there, so that it may evolve, offer insight into my approach and ideas, and hopefully get crafted into
+something with a human touch.
+
+Although it started with MSI machines in mind, I tried to introduce mechanisms that will detect what
+each machine supports and only show that, other laptops and desktops also get whatever standard Linux
+controls they have. Pick a performance mode, turn on Max Fans, set a battery charge limit, and change fan curves,
 in one click each, with no password prompts.
 
 - **Home:** Silent / Balanced / Performance / Extreme, Max Fans, live CPU and GPU temperatures

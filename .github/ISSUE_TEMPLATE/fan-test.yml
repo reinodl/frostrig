@@ -1,0 +1,41 @@
+name: Fan test / new MSI model
+description: The fan test failed, or your MSI laptop isn't fully supported yet
+title: "[Model] "
+labels: ["new model"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping FrostRig support more MSI laptops. The system report
+        lists your hardware and the EC fan area only: no serial numbers or personal data.
+  - type: input
+    id: model
+    attributes:
+      label: Laptop model
+      placeholder: e.g. Sword 16 HX B14VGKG
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: What happened?
+      options:
+        - The fan test failed
+        - The fan test passed, but something else is wrong
+        - The fan test isn't offered on my laptop
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What you did and what you saw. Did the fans get loud during the test?
+  - type: textarea
+    id: report
+    attributes:
+      label: System report
+      description: In FrostRig, open Settings and press "Copy system report", then paste it here.
+      render: text
+    validations:
+      required: true

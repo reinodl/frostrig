@@ -87,6 +87,17 @@ Quiet and Cool fan curves are calculated from them. No hard-coded fan curves shi
 
 ## Install (CachyOS / Arch)
 
+From the AUR (CachyOS ships `paru`):
+
+```fish
+paru -S frostrig
+```
+
+MSI features need the [msi-ec](https://github.com/BeardOverflow/msi-ec) driver: `paru -S msi-ec-dkms-git`
+(plus the headers for your kernel), then reboot.
+
+To build from a checkout instead: `cd packaging; and makepkg -si`.
+
 ### Coming from MSI Control v0.14 (the old name)
 
 Just build and install FrostRig as below. The package replaces `msi-control`, and on first start the service

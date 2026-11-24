@@ -1,0 +1,14 @@
+post_install() {
+    systemctl daemon-reload
+    systemctl preset frostrigd.service
+    systemctl start frostrigd.service || echo "frostrigd will start at the next boot."
+}
+
+post_upgrade() {
+    systemctl daemon-reload
+    systemctl try-restart frostrigd.service
+}
+
+pre_remove() {
+    systemctl disable --now frostrigd.service || true
+}

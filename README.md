@@ -2,25 +2,31 @@
 
 # FrostRig
 
-FrostRig started specifically with MSI laptops in mind. I have been one of those individuals that have
-been toying with the idea of abandoning the Microsoft ship... Countless formats later because
-of my inherent ability to adhere to the universal rule of break before make, I had a CachyOS
-setup running headless over Sunshine and Moonlight, but I found myself looking for an easy
-and straightforward way to manage the system, similar to what MSI Dragon Center and other
-software offer on Windows. I used some AI insights and had many a piece of python scrolls
-all around the machine, making small steps towards controlling the system. Shortly after this,
-I found a piece of software called MControlCenter which scratched the itch for a little bit.
-With the rise of some very impressive Vibe-Coded software popping up everywhere, I decided to
-have a go at it. I am in no means nearly as experienced, nor do I have the expertise of some
-of the great coders out there, but really wanted to bring something to the Linux Universe in
-an area where I felt some systems or configurations (maybe even people) were left behind. I am
-only now starting to dig through the code, learning what each little bit does, how it interacts with
-the system. I am releasing this project purely as a passion project for some folks that may have felt
-left behind in the leap to a better universe, where we are free to create, manage and explore without
-Big Brother looking over the your shoulder. My intention is not to draw criticism, or cause harm in any way.
-I am releasing this in the hope that it gains the necessary attention and expertise from the great
-coders out there, so that it may evolve, offer insight into my approach and ideas, and hopefully get crafted into
-something with a human touch.
+FrostRig started specifically with MSI laptops in mind. More specifically, my own.
+I have been one of those individuals that have been toying with the idea of abandoning
+the Microsoft ship... Countless formats later because of my inherent ability to adhere
+to the universal rule of break before make, I had a CachyOS setup running headless over
+Sunshine and Moonlight with the use of an HDMI Dummy plug to force my screen availability,
+but I found myself looking for an easy and straightforward way to manage the system performance
+and cooling, because I cut up my wife's rather expensive television console unit with fan holes
+in the rear panel, installed some bright RGB fans to create a circulating airflow, and wanted to
+ensure I can maximize cooling while keeping the cabinet door closed. I desperately wanted something
+similar to what MSI Dragon Center and other software offer on Windows. I used some AI insights
+and had many a piece of python scriptures all around the machine, making small steps towards
+controlling the system. Shortly after this, I found a piece of software called MControlCenter
+which scratched the itch for a little bit, albeit, I felt I wanted more. (No disrespect to the
+creator and a big thank you - check out this tool https://github.com/MControlSuite/MControlCenter).
+With the rise of some very impressive vibe-coded software popping up everywhere, I decided to have
+a go at it. I am in no means nearly as experienced, nor do I have the expertise of some of the great
+developers out there, but I really wanted to bring something to the Linux Universe in an area where I felt some
+systems (maybe even people) got left behind. I am only now starting to dig through the code,
+learning what each little bit does, how it interacts with the system. I am releasing this project
+purely as a passion project for some folks that may feel left behind in the leap to a better universe,
+or hesitant to make the jump because of their fears of needing software for their systems. Or maybe
+just for that one guy that needs to gain a few more FPS, either way, my intention is not to draw
+criticism, or cause harm in any way. I am releasing this in the hope that it gets some attention and
+draw expertise from the great developers out there, so that it may evolve, offer insight into my approach
+and ideas, and hopefully get crafted into something with a human touch.
 
 Although it started with MSI machines in mind, I tried to introduce mechanisms that will detect what
 each machine supports and only show that, other laptops and desktops also get whatever standard Linux

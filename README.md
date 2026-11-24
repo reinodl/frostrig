@@ -17,6 +17,16 @@ in one click each, with no password prompts.
 
 Your choices stick: they come back after a restart and after sleep.
 
+<p align="center">
+  <img src="docs/screenshots/home.png" width="860" alt="FrostRig Home: performance modes, temperatures and live fan speeds">
+</p>
+
+| Advanced | Battery |
+|---|---|
+| <img src="docs/screenshots/advanced.png" alt="Advanced: custom fan curve, CPU power, Turbo and GPU limits"> | <img src="docs/screenshots/battery.png" alt="Battery: charge limit and Super Battery"> |
+| **Device** | **Settings** |
+| <img src="docs/screenshots/device.png" alt="Device: webcam and keyboard controls"> | <img src="docs/screenshots/settings.png" alt="Settings: five themes and app options"> |
+
 ## How it works
 
 ```

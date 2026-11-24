@@ -94,14 +94,16 @@ with fewer features (see [What's supported where](#whats-supported-where)).
 
 ### 2. Install FrostRig
 
-Download and install the package from the
-[latest release](https://github.com/reinodl/frostrig/releases/latest). One command does both;
-change the version number to the latest one:
+Download the package from the [latest release](https://github.com/reinodl/frostrig/releases/latest)
+and install it. Change the version number to the latest one:
 
 ```fish
-sudo pacman -U https://github.com/reinodl/frostrig/releases/download/v0.19.1/frostrig-0.19.1-1-x86_64.pkg.tar.zst
+cd ~/Downloads
+curl -LO https://github.com/reinodl/frostrig/releases/download/v0.19.1/frostrig-0.19.1-1-x86_64.pkg.tar.zst
+sudo pacman -U frostrig-0.19.1-1-x86_64.pkg.tar.zst
 ```
 
+(Or download the `.pkg.tar.zst` file from the release page in your browser and run the last line.)
 pacman installs the dependencies, and the FrostRig service starts straight away and at every boot.
 To build the package yourself instead, see [Build and install](#build-and-install).
 

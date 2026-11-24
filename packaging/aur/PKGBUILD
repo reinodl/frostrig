@@ -2,7 +2,7 @@
 # AUR package: builds FrostRig from a tagged GitHub release.
 # After changing pkgver: run `updpkgsums` and `makepkg --printsrcinfo > .SRCINFO`.
 pkgname=frostrig
-pkgver=0.19.1
+pkgver=0.20.0
 pkgrel=1
 pkgdesc="Unofficial control center for MSI laptops on Linux: performance modes, Max Fans, fan curves, battery charge limit"
 arch=('x86_64')

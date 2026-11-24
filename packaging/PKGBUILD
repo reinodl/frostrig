@@ -1,7 +1,7 @@
 # Builds FrostRig from this source folder: run `makepkg -si` inside packaging/.
 # For an AUR release, swap `source` for a release tarball and its checksum.
 pkgname=frostrig
-pkgver=0.19.1
+pkgver=0.20.0
 pkgrel=1
 pkgdesc="Unofficial control center for MSI laptops on Linux: performance modes, Max Fans, fan curves, battery charge limit"
 arch=('x86_64')

@@ -2,6 +2,7 @@
 //! puts them back at boot and after sleep.
 
 use crate::caps::{self, Caps, ModeBackend, TurboSwitch, MSI_EC, PLATFORM_PROFILE, POWERPROFILESCTL, POWER_SUPPLY};
+use crate::cpu;
 use crate::fan::{self, Preset, Tables};
 use crate::gpu::{self, Gpu, Runner, SystemRunner, Vendor};
 use crate::state::GpuSettings;
@@ -28,6 +29,18 @@ pub struct PowerLimits {
 /// Live GPU readings are cached briefly so status polls don't run
 /// nvidia-smi more than needed.
 const GPU_CACHE: Duration = Duration::from_millis(1500);
+
+/// A CPU power reading older than this is stale (the sampler stopped).
+const CPU_POWER_FRESH: Duration = Duration::from_secs(6);
+
+/// One reading of the RAPL energy counter and the watts worked out from the
+/// reading before it.
+#[derive(Clone, Copy, Debug)]
+struct EnergySample {
+    at: Instant,
+    uj: u64,
+    watts: Option<f64>,
+}
 
 const FAN_TEST_FILE: &str = "/var/lib/frostrig/fan-test";
 
@@ -86,6 +99,7 @@ pub struct Controller {
     /// power-profiles-daemon's current profile, cached like GPU readings.
     ppd_cache: Mutex<Option<(Instant, Option<String>)>>,
     fan_test: FanTest,
+    cpu_energy: Option<EnergySample>,
     /// (wait, settle) for the fan test; shortened in tests.
     fan_test_timing: (Duration, Duration),
 }
@@ -111,6 +125,7 @@ impl Controller {
             boost_cache: Mutex::new(None),
             ppd_cache: Mutex::new(None),
             fan_test: FanTest::Idle,
+            cpu_energy: None,
             fan_test_timing: (FAN_TEST_WAIT, FAN_TEST_SETTLE),
         };
         c.detect_ppd();
@@ -1093,6 +1108,31 @@ impl Controller {
         log
     }
 
+    /// Read the CPU energy counter; called every couple of seconds by the
+    /// service so `cpuPowerW` is always the draw over the last interval.
+    pub fn sample_cpu_power(&mut self) {
+        self.sample_cpu_power_at(Instant::now());
+    }
+
+    pub(crate) fn sample_cpu_power_at(&mut self, at: Instant) {
+        let zone = cpu::energy_zone(&self.hw);
+        let Some(uj) = zone.as_ref().and_then(|z| self.hw.read_u64(&format!("{z}/energy_uj"))) else {
+            self.cpu_energy = None;
+            return;
+        };
+        let watts = self.cpu_energy.and_then(|prev| {
+            let range = zone.as_ref().and_then(|z| self.hw.read_u64(&format!("{z}/max_energy_range_uj")));
+            cpu::watts(prev.uj, uj, range, at.checked_duration_since(prev.at)?.as_secs_f64())
+        });
+        self.cpu_energy = Some(EnergySample { at, uj, watts });
+    }
+
+    fn cpu_power_w(&self) -> Option<f64> {
+        let s = self.cpu_energy?;
+        if s.at.elapsed() > CPU_POWER_FRESH { return None; }
+        s.watts
+    }
+
     fn gpu_live(&self, g: &Gpu) -> Option<gpu::Live> {
         // Never read a sleeping GPU: it would wake it.
         if !gpu::awake(&self.hw, g) { return None; }
@@ -1349,6 +1389,8 @@ impl Controller {
                 ("gpuTemp", if c.msi_ec { sensor("gpu", "realtime_temperature") } else {
                     J::opt(self.shown_gpus().first().and_then(|g| self.gpu_live(g)).and_then(|l| l.temp_c))
                 }),
+                ("cpuClockMhz", J::opt(cpu::clock_mhz(&self.hw))),
+                ("cpuPowerW", J::opt(self.cpu_power_w())),
                 ("cpuFan", sensor("cpu", "realtime_fan_speed")),
                 ("gpuFan", sensor("gpu", "realtime_fan_speed")),
                 ("fans", J::Arr(self.fans().into_iter()

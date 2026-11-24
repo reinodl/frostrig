@@ -74,6 +74,10 @@ export interface Status {
   sensors: {
     cpuTemp: number | null;
     gpuTemp: number | null;
+    /** Average of the cores. */
+    cpuClockMhz: number | null;
+    /** Package power from RAPL; null until the service has two samples. */
+    cpuPowerW: number | null;
     cpuFan: number | null;
     gpuFan: number | null;
     fans: { label: string; rpm: number }[];

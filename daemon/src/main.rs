@@ -377,6 +377,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // The NVIDIA driver forgets the clock limit whenever the GPU powers off.
     // Checking only reads sysfs, so this never wakes a sleeping GPU.
+    // The same tick samples the CPU energy counter for the power readout.
     let watcher = ctl.clone();
     tokio::spawn(async move {
         let mut tick = tokio::time::interval(Duration::from_secs(2));
@@ -384,6 +385,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             tick.tick().await;
             let messages = match watcher.lock() {
                 Ok(mut c) => {
+                    c.sample_cpu_power();
                     let mut m = c.fan_test_tick();
                     m.extend(c.gpu_watch());
                     m

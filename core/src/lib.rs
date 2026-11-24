@@ -5,6 +5,7 @@
 
 pub mod caps;
 pub mod controller;
+pub mod cpu;
 pub mod fan;
 pub mod gpu;
 pub mod hw;

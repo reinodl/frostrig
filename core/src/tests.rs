@@ -1181,3 +1181,47 @@ fn an_interrupted_fan_test_is_undone_at_the_next_start() {
     assert_eq!(f.get(&format!("{EC}/fan_mode")), "auto");
     assert!(!ctl.caps().fan_curves);
 }
+
+// ---------------------------------------------------------------- CPU readings
+
+#[test]
+fn cpu_clock_is_the_average_of_the_cores() {
+    let f = Fake::gt77();
+    let cpu = "/sys/devices/system/cpu";
+    f.put(&format!("{cpu}/cpu0/cpufreq/scaling_cur_freq"), "800000\n")
+        .put(&format!("{cpu}/cpu1/cpufreq/scaling_cur_freq"), "5400000\n")
+        .put(&format!("{cpu}/cpufreq/policy0/scaling_cur_freq"), "9999999\n");
+    assert_eq!(crate::cpu::clock_mhz(&f.hw()), Some(3100));
+    has(&Controller::open(f.hw()).status_json(), &[r#""cpuClockMhz":3100"#]);
+    assert_eq!(crate::cpu::clock_mhz(&Fake::new().hw()), None);
+}
+
+#[test]
+fn rapl_watts_handle_counter_wrap() {
+    use crate::cpu::watts;
+    assert_eq!(watts(1_000_000, 91_000_000, None, 2.0), Some(45.0));
+    // Wrapped at 100 J: 99 J -> 100 J -> 9 J is 10 J.
+    assert_eq!(watts(99_000_000, 9_000_000, Some(100_000_000), 1.0), Some(10.0));
+    assert_eq!(watts(99_000_000, 9_000_000, None, 1.0), None);
+    assert_eq!(watts(1, 2, None, 0.0), None);
+}
+
+#[test]
+fn cpu_power_comes_from_two_energy_samples() {
+    let f = Fake::gt77();
+    let rapl = "/sys/class/powercap/intel-rapl:0";
+    f.put(&format!("{rapl}/energy_uj"), "5000000\n")
+        .put(&format!("{rapl}/max_energy_range_uj"), "262143328850\n");
+    let mut ctl = Controller::open(f.hw());
+    has(&ctl.status_json(), &[r#""cpuPowerW":null"#]);
+    let t = std::time::Instant::now();
+    ctl.sample_cpu_power_at(t);
+    has(&ctl.status_json(), &[r#""cpuPowerW":null"#]);
+    f.put(&format!("{rapl}/energy_uj"), "95000000\n");
+    ctl.sample_cpu_power_at(t + std::time::Duration::from_secs(2));
+    has(&ctl.status_json(), &[r#""cpuPowerW":45"#]);
+    // The counter disappearing clears the reading.
+    fs::remove_file(f.root.join(rapl.trim_start_matches('/')).join("energy_uj")).unwrap();
+    ctl.sample_cpu_power_at(t + std::time::Duration::from_secs(4));
+    has(&ctl.status_json(), &[r#""cpuPowerW":null"#]);
+}

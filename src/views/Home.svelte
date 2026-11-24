@@ -30,6 +30,8 @@
   let modes = $derived(MODES.filter((m) => status.supported.modes.includes(m.id)));
   let boost = $derived(status.state.maxFans === true);
   let b = $derived(status.battery);
+  // The GPU the gauge describes: the dedicated one when there is one.
+  let gpu = $derived(status.gpus[0]);
   // Max Fans and battery sit beside the gauges; desktops may have neither.
   let sideColumn = $derived(status.supported.maxFans || status.battery.present);
   let fans = $derived.by(() => {
@@ -80,8 +82,10 @@
 {/if}
 
 <div class={sideColumn ? 'grid-3' : 'grid-2'}>
-  <Gauge label="CPU" temp={status.sensors.cpuTemp} fan={status.sensors.cpuFan} />
-  <Gauge label="GPU" temp={status.sensors.gpuTemp} fan={status.sensors.gpuFan} />
+  <Gauge label="CPU" temp={status.sensors.cpuTemp} fan={status.sensors.cpuFan}
+    clockMhz={status.sensors.cpuClockMhz ?? null} powerW={status.sensors.cpuPowerW ?? null} />
+  <Gauge label="GPU" temp={status.sensors.gpuTemp} fan={status.sensors.gpuFan}
+    clockMhz={gpu?.awake ? gpu.clockMhz : null} powerW={gpu?.awake ? gpu.powerW : null} asleep={gpu?.awake === false} />
   {#if sideColumn}
   <div class="stack">
     {#if status.supported.maxFans}

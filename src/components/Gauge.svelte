@@ -1,6 +1,14 @@
 <script lang="ts">
-  // Segmented 270° temperature ring.
-  let { label, temp, fan }: { label: string; temp: number | null; fan: number | null } = $props();
+  // Segmented 270° temperature ring, with clock and power underneath.
+  let { label, temp, fan, clockMhz = null, powerW = null, asleep = false }: {
+    label: string;
+    temp: number | null;
+    fan: number | null;
+    clockMhz?: number | null;
+    powerW?: number | null;
+    /** A powered-down GPU: it has no clock or draw, and reading them would wake it. */
+    asleep?: boolean;
+  } = $props();
 
   const id = 'g' + Math.random().toString(36).slice(2, 8);
   const ARC = 292.2; // 3/4 of the ring's circumference (r = 62)
@@ -43,10 +51,33 @@
       {/if}
     </div>
   </div>
+  {#if asleep}
+    <div class="stats"><span class="label muted" style="font-size: 13px; letter-spacing: 2px">Asleep · saving power</span></div>
+  {:else if clockMhz !== null || powerW !== null}
+    <div class="stats">
+      {#if clockMhz !== null}
+        <div class="stat">
+          <span class="label muted">Clock</span>
+          <span class="num">{(clockMhz / 1000).toFixed(2)}<span class="unit">GHz</span></span>
+        </div>
+      {/if}
+      {#if powerW !== null}
+        <div class="stat">
+          <span class="label muted">Power</span>
+          <span class="num">{powerW < 10 ? powerW.toFixed(1) : Math.round(powerW)}<span class="unit">W</span></span>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </section>
 
 <style>
   .gauge { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 20px; }
-  .ring { position: relative; width: 176px; height: 158px; }
-  .readout { position: absolute; inset: 0 0 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring { position: relative; width: 176px; height: 150px; }
+  .stats { align-self: stretch; display: flex; justify-content: space-around; align-items: baseline; gap: 12px; min-height: 22px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .stat { display: flex; align-items: baseline; gap: 8px; }
+  .stat .label { font-size: 12px; letter-spacing: 2px; }
+  .stat .num { font-size: 17px; }
+  .unit { font-size: .6em; margin-left: .35em; color: var(--muted); }
+  .readout { position: absolute; inset: 0 0 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 </style>

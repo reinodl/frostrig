@@ -67,35 +67,77 @@ Quiet and Cool fan curves are calculated from them. No hard-coded fan curves shi
 
 ## Install (CachyOS / Arch)
 
-From the AUR (CachyOS ships `paru`):
+FrostRig has two parts: a small background service that talks to the hardware, and the app you
+open. Both are in one package. It's built for Arch-based distros (CachyOS, EndeavourOS,
+Manjaro, Arch).
+
+### 1. Install the MSI driver (MSI laptops)
+
+Performance modes, Max Fans, fan curves, the battery limit and the other MSI features use the
+community [msi-ec](https://github.com/BeardOverflow/msi-ec) kernel driver. Install it with the
+headers for your kernel (CachyOS ships `paru`):
 
 ```fish
-paru -S frostrig
+paru -S msi-ec-dkms-git linux-cachyos-headers
 ```
 
-MSI features need the [msi-ec](https://github.com/BeardOverflow/msi-ec) driver: `paru -S msi-ec-dkms-git`
-(plus the headers for your kernel), then reboot.
-
-To build from a checkout instead: `cd packaging; and makepkg -si`.
-
-### Coming from MSI Control v0.14 (the old name)
-
-Just build and install FrostRig as below. The package replaces `msi-control`, and on first start the service
-copies your settings and recorded factory values over from `/var/lib/msi-control`. App preferences
-(theme, scanlines) start fresh.
-
-### Upgrading from v0.13
-
-MSI Control v0.13 used separate helpers, pkexec prompts and several services. Remove them first, using fish:
+On stock Arch, use `linux-headers` (or `linux-lts-headers`, etc.) instead of `linux-cachyos-headers`.
+**Reboot**, then check that the driver loaded:
 
 ```fish
-fish packaging/migrate-from-v0.13.fish
+ls /sys/devices/platform/msi-ec
 ```
 
-This removes the old MSI Control helpers, services and polkit rule. It also **disables** your
-own `gt77-fan-profile.service` and `cpu-power-limits.service` (without deleting them), because
-two programs writing the same fan tables would fight. **Reboot afterwards** so the new service
-records true factory values, not your old custom curve.
+If that folder exists, you're set. If not, run `sudo dmesg | grep msi_ec`: a message saying your
+firmware isn't supported means msi-ec doesn't know your model yet. FrostRig still runs without it,
+with fewer features (see [What's supported where](#whats-supported-where)).
+
+### 2. Install FrostRig
+
+Download and install the package from the
+[latest release](https://github.com/reinodl/frostrig/releases/latest). One command does both;
+change the version number to the latest one:
+
+```fish
+sudo pacman -U https://github.com/reinodl/frostrig/releases/download/v0.19.1/frostrig-0.19.1-1-x86_64.pkg.tar.zst
+```
+
+pacman installs the dependencies, and the FrostRig service starts straight away and at every boot.
+To build the package yourself instead, see [Build and install](#build-and-install).
+
+### 3. Open it
+
+Open **FrostRig** from your app menu. There are no passwords, prompts or extra setup: changes
+apply as you make them. Closing the window keeps FrostRig in the system tray; turn on
+**Start with your computer** in Settings to have it there after you log in.
+
+On first start, the service records your laptop's factory fan curves and power limits.
+**Reset to defaults** always goes back to these.
+
+### Updating
+
+Install the new release the same way, with the new version number. Your settings are kept.
+
+### Uninstalling
+
+```fish
+sudo pacman -R frostrig
+```
+
+This stops and removes the service. Settings and the recorded factory values stay in
+`/var/lib/frostrig`; delete that folder too for a clean removal:
+
+```fish
+sudo rm -r /var/lib/frostrig
+```
+
+### Something not working?
+
+- Check the service is running: `systemctl status frostrigd`
+- See what it logged: `journalctl -u frostrigd -b --no-pager | tail -n 50`
+- In FrostRig, open **Settings** and press **Copy system report**, then
+  [open an issue](https://github.com/reinodl/frostrig/issues/new/choose) and paste it in.
+  The report lists your hardware only: no serial numbers or personal data.
 
 ### Build and install
 

@@ -1,0 +1,12 @@
+[package]
+name = "frostrigd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "FrostRig background service: owns the hardware, serves the app over D-Bus"
+
+[dependencies]
+frostrig-core = { path = "../core" }
+zbus = { version = "5", default-features = false, features = ["tokio"] }
+tokio = { version = "1", features = ["rt", "macros", "time"] }
+futures-util = "0.3"

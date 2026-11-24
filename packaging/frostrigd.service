@@ -1,0 +1,25 @@
+[Unit]
+Description=FrostRig service (performance modes, fans, battery limit)
+After=systemd-modules-load.service
+
+[Service]
+Type=dbus
+BusName=io.github.frostrig.Daemon
+ExecStart=/usr/lib/frostrig/frostrigd
+Restart=on-failure
+RestartSec=3
+StateDirectory=frostrig
+StateDirectoryMode=0700
+# Hardening. /sys stays writable (needed for the hardware); the rest is locked down.
+# No MemoryDenyWriteExecute: it would also apply to nvidia-smi, which the service runs.
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictRealtime=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target
+Alias=dbus-io.github.frostrig.Daemon.service

@@ -1,0 +1,63 @@
+# Builds FrostRig from this source folder: run `makepkg -si` inside packaging/.
+# For an AUR release, swap `source` for a release tarball and its checksum.
+pkgname=frostrig
+pkgver=0.19.1
+pkgrel=1
+pkgdesc="Unofficial control center for MSI laptops on Linux: performance modes, Max Fans, fan curves, battery charge limit"
+arch=('x86_64')
+url="https://github.com/reinodl/frostrig"
+license=('GPL-3.0-or-later')
+depends=('webkit2gtk-4.1' 'gtk3' 'libayatana-appindicator' 'polkit' 'dbus' 'systemd')
+makedepends=('cargo' 'nodejs' 'npm')
+install=frostrig.install
+# Takes over from the package's earlier name.
+provides=('msi-control')
+conflicts=('msi-control')
+replaces=('msi-control')
+source=()
+sha256sums=()
+
+_src() { realpath "$startdir/.."; }
+
+prepare() {
+    cd "$(_src)"
+    export CARGO_HOME="$srcdir/cargo-home"
+    cargo fetch --target "$(rustc -vV | sed -n 's/host: //p')"
+    npm ci 2>/dev/null || npm install
+}
+
+build() {
+    cd "$(_src)"
+    export CARGO_HOME="$srcdir/cargo-home"
+    export CARGO_TARGET_DIR="$srcdir/target"
+    # Keep build-machine paths out of the binaries (makepkg warns about $srcdir otherwise).
+    export RUSTFLAGS="--remap-path-prefix=$srcdir=/build --remap-path-prefix=$(_src)=/build"
+    cargo build --release -p frostrigd
+    npx tauri build --no-bundle
+}
+
+check() {
+    cd "$(_src)"
+    export CARGO_HOME="$srcdir/cargo-home"
+    export CARGO_TARGET_DIR="$srcdir/target"
+    cargo test --release -p frostrig-core
+}
+
+package() {
+    local src; src="$(_src)"
+    install -Dm755 "$srcdir/target/release/frostrigd" "$pkgdir/usr/lib/frostrig/frostrigd"
+    install -Dm755 "$srcdir/target/release/frostrig" "$pkgdir/usr/bin/frostrig"
+    install -Dm644 "$src/packaging/frostrigd.service" "$pkgdir/usr/lib/systemd/system/frostrigd.service"
+    install -Dm644 "$src/packaging/80-frostrig.preset" "$pkgdir/usr/lib/systemd/system-preset/80-frostrig.preset"
+    install -Dm644 "$src/packaging/io.github.frostrig.Daemon.conf" "$pkgdir/usr/share/dbus-1/system.d/io.github.frostrig.Daemon.conf"
+    install -Dm644 "$src/packaging/io.github.frostrig.Daemon.service" "$pkgdir/usr/share/dbus-1/system-services/io.github.frostrig.Daemon.service"
+    install -Dm644 "$src/packaging/io.github.frostrig.policy" "$pkgdir/usr/share/polkit-1/actions/io.github.frostrig.policy"
+    install -Dm644 "$src/packaging/frostrig.desktop" "$pkgdir/usr/share/applications/frostrig.desktop"
+    for size in 16 32 48 64 128 256 512; do
+        install -Dm644 "$src/src-tauri/icons/${size}x${size}.png" "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/frostrig.png"
+    done
+    install -Dm644 "$src/src-tauri/icons/frostrig.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/frostrig.svg"
+    if [[ -f "$src/LICENSE" ]]; then
+        install -Dm644 "$src/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    fi
+}

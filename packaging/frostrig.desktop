@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=FrostRig
+GenericName=Laptop Control Center
+Comment=Performance modes, fans and battery charge limit for MSI laptops (unofficial)
+Exec=frostrig
+Icon=frostrig
+Terminal=false
+Categories=Settings;HardwareSettings;System;
+Keywords=MSI;fan;battery;performance;cooling;
+StartupWMClass=frostrig

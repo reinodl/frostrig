@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.svelte-kit/
+src-tauri/target/
+src-tauri/gen/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+__pycache__/
+*.pyc
+
+target/
+packaging/src/
+packaging/pkg/
+*.pkg.tar.zst

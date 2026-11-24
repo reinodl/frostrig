@@ -1,0 +1,13 @@
+[workspace]
+members = ["core", "daemon", "src-tauri"]
+resolver = "2"
+
+[workspace.package]
+version = "0.19.1"
+edition = "2021"
+license = "GPL-3.0-or-later"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

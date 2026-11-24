@@ -1,0 +1,10 @@
+[package]
+name = "frostrig-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Hardware logic for FrostRig: detection, validation, apply with readback, persistence"
+
+# Deliberately dependency-free: everything that touches hardware is plain std,
+# so it can be unit-tested against a fake sysfs tree anywhere.
+[dependencies]

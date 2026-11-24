@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
+     viewBox="-17 46 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Gunmetal and amber dragon</title>
+  <desc id="desc">An angular gunmetal dragon coiled into a hexagonal spiral. Amber accents catch its horn, eye, neck and tail.</desc>
+  <defs>
+    <linearGradient id="gunmetal" x1="220" y1="180" x2="850" y2="1120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#656b70"/>
+      <stop offset="0.49" stop-color="#60676c"/>
+      <stop offset="1" stop-color="#696e72"/>
+    </linearGradient>
+    <linearGradient id="graphite" x1="420" y1="270" x2="720" y2="1135" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#292c2f"/>
+      <stop offset="1" stop-color="#25292b"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="160" y1="605" x2="790" y2="1150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#474c50"/>
+      <stop offset="1" stop-color="#393e42"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="200" y1="120" x2="930" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff960b"/>
+      <stop offset="1" stop-color="#ffa00d"/>
+    </linearGradient>
+  </defs>
+
+  <path id="silhouette" fill="url(#gunmetal)" d="
+    M 178 89 L 421 200 700 298 646 224 906 365 933 414 991 434
+    1029 407 1058 454 1002 534 982 504 950 499 930 520 913 490
+    855 490 835 508 914 544 925 565 939 564 984 532 962 596
+    880 631 869 584 787 537 712 525 651 495 675 456
+    468 530 751 667 529 640 309 775 309 996 441 1073 641 1071
+    742 930 676 836 585 836 505 879 505 981 420 891 547 715
+    819 715 957 930 759 1200 305 1200 110 1002 110 699
+    356 467 182 469 390 338 560 350 525 331 351 281 Z"/>
+
+  <g id="armour-facets">
+    <path id="horn-shadow" fill="url(#graphite)" d="
+      M 178 89 L 371 261 642 318 563 319 605 370 525 331 351 281 Z"/>
+    <path id="rear-horn-facet" fill="url(#steel)" d="M 646 224 L 730 306 694 295 Z"/>
+    <path id="rear-spine-shadow" fill="url(#graphite)" d="M 182 469 L 438 405 353 468 Z"/>
+    <path id="cheek-facet" fill="url(#graphite)" d="M 338 558 L 502 449 731 402 675 456 Z"/>
+    <path id="upper-jaw-facet" fill="url(#graphite)" d="
+      M 730 480 L 791 484 846 462 890 463 912 482 934 503 946 483
+      988 494 1003 509 1058 454 1002 534 982 504 950 499 930 520
+      913 490 855 490 835 508 814 525 Z"/>
+    <path id="lower-jaw-facet" fill="url(#graphite)" d="
+      M 675 456 L 675 480 715 506 797 523 885 574 899 598
+      953 573 984 532 962 596 880 631 869 584 787 537 712 525 651 495 Z"/>
+    <path id="neck-bevel" fill="url(#steel)" d="
+      M 152 815 L 238 646 433 615 529 640 309 775 309 996
+      441 1073 340 1082 144 993 Z"/>
+    <path id="neck-shadow" fill="url(#graphite)" d="
+      M 111 988 L 152 815 433 615 751 667 529 640 309 775
+      188 898 145 996 310 1174 305 1200 110 1002 Z"/>
+    <path id="coil-underface" fill="url(#graphite)" d="
+      M 110 1002 L 145 980 373 1138 695 1137 916 922 957 930
+      759 1200 305 1200 Z"/>
+    <path id="coil-left-bevel" fill="url(#steel)" d="
+      M 145 980 L 342 1077 441 1073 371 1138 Z"/>
+    <path id="coil-lower-bevel" fill="url(#steel)" d="M 373 1138 L 695 1137 759 1200 305 1200 Z"/>
+    <path id="tail-inner-facet" fill="url(#steel)" d="
+      M 420 891 L 454 901 520 809 791 768 725 846
+      676 836 585 836 505 879 505 981 Z"/>
+    <path id="tail-tip-shadow" fill="url(#graphite)" d="M 420 891 L 454 901 505 981 Z"/>
+  </g>
+
+  <g id="amber-accents" fill="url(#amber)">
+    <path id="horn-rim" d="M 178 89 L 421 200 700 298 390 232 Z"/>
+    <path id="brow" d="M 749 310 L 892 376 906 403 888 386 809 362 Z"/>
+    <path id="eye-socket" fill="url(#graphite)" d="M 751 359 L 884 395 914 431 843 429 802 386 Z"/>
+    <path id="eye" d="M 821 391 L 880 412 888 423 848 421 Z"/>
+    <path id="neck-rim" d="M 110 699 L 348 473 126 710 110 1002 Z"/>
+    <path id="coil-rim" d="M 865 785 L 957 930 851 1053 919 918 Z"/>
+  </g>
+</svg>

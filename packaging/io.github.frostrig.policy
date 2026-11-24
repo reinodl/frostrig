@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>FrostRig</vendor>
+  <action id="io.github.frostrig.manage">
+    <description>Change laptop performance, fan and battery settings</description>
+    <message>Authentication is required to change this laptop's performance, fan or battery settings</message>
+    <icon_name>frostrig</icon_name>
+    <defaults>
+      <!-- The person sitting at the laptop: no prompt, like a Windows control center. -->
+      <allow_active>yes</allow_active>
+      <!-- Remote or background sessions must authenticate as an administrator. -->
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_any>auth_admin_keep</allow_any>
+    </defaults>
+  </action>
+</policyconfig>

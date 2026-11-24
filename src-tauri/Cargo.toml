@@ -1,0 +1,18 @@
+[package]
+name = "frostrig"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "FrostRig desktop app"
+
+[lib]
+name = "frostrig_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+zbus = { version = "5", default-features = false, features = ["tokio"] }
+tokio = { version = "1", features = ["sync"] }
